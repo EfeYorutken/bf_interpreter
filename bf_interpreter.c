@@ -1,8 +1,8 @@
 #include<stdio.h>
+#include<string.h>
 #include<stdlib.h>
 
 #define TAPE_LENGTH 100
-
 
 void get_matching_paranthesis(char** c, char* begin);
 void get_input(int** p);
@@ -12,21 +12,65 @@ void move_pointer_right(int** p);;
 void print(int** p);
 void parse(char** charp, int** intp);
 int get_char_amount(char file_name[]);
-void parse_file_named();
-void test(char* c);
+void parse_file_named(char file_name[]);
+void shell();
 
 
 
 int main(){
-	parse_file_named();
+	shell();
 
 	return 0;
 }
 
-void parse_file_named(){
-	char file_name[40];
-	printf("enter file name : ");
-	scanf("%s",file_name);
+const char RUN[] = "run";//run a file
+const char EXE[] = "exe";//execute a command
+const char HELP[] = "help";
+const char QUIT[] = "quit";
+
+void shell(){
+	while(1){
+		char command[50];
+		printf(">brainfuck shell> ");
+		scanf("%s",&command[0]);
+
+		if(strcmp(command,RUN) == 0){
+			char file_name[strlen(command) - strlen(RUN)];
+			scanf("%s",&file_name[0]);
+			parse_file_named(file_name);
+		}
+		else if(strcmp(command,EXE) == 0){
+			char code[200];
+			scanf("%s.",code);
+			int tape[TAPE_LENGTH];
+
+			for(int i = 0; i < TAPE_LENGTH; i++){tape[i] = 0;}
+
+			int* tape_p = &tape[0];
+			char* code_p = &code[0];
+
+			parse(&code_p,&tape_p);
+
+		}
+		else if(strcmp(command,QUIT) == 0){
+			break;
+		}
+		else if(strcmp(command,HELP) == 0){
+			printf("HELP SCREEN\n-----------\n");
+			printf("run <file_name> -> runs the file that has the name <file_name>\n");
+			printf("quit -> terminates shell mode\n");
+			printf("exe <code> -> runst the brainfuck code given\n");
+			printf("help -> displays this menu\n");
+		}
+		else{
+			printf("command not recognized\n");
+		}
+
+	}
+
+}
+
+void parse_file_named(char file_name[]){
 	int length_of_file = get_char_amount(file_name);
 	char file_content[length_of_file+1];
 
@@ -157,6 +201,10 @@ void parse(char** charp, int** intp){
 }
 int get_char_amount(char file_name[]){
 	FILE* file = fopen(file_name,"r");
+	if(file == NULL){
+		perror("file not found");
+		exit(1);
+	}
 	int res = 0;
 	while(!feof(file)){
 		switch(fgetc(file)){
