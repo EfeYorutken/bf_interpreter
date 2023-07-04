@@ -3,6 +3,7 @@
 #include<stdlib.h>
 
 #define TAPE_LENGTH 100
+#define RUN_FILE_COMMAND "-f"
 
 //given either [ or ] moves the char* pointed by c to the location of the corrosponding square brace
 void get_matching_paranthesis(char** c, char* begin);
@@ -32,8 +33,25 @@ void shell();
 
 
 
-int main(){
-	shell();
+int main(int argc, char* argv[]){
+	if(argc == 1){
+		shell();
+	}
+	else if(strcmp(argv[1],RUN_FILE_COMMAND) == 0){
+		if(strlen(argv[2]) == 0){
+			printf("you must enter a file to interpret\n");
+			printf("type 'bf_interpreter' followed by 'help' to learn more about command line options");
+		}
+		else{
+			parse_file_named(argv[2]);
+		}
+	}
+	else{
+		printf("command unknown\n");
+		printf("type 'bf_interpreter' followed by 'help' to learn more about command line options");
+		return 1;
+		return 1;
+	}
 
 	return 0;
 }
@@ -75,10 +93,14 @@ void shell(){
 		}
 		else if(strcmp(command,HELP) == 0){
 			printf("HELP SCREEN\n-----------\n");
-			printf("run <file_name> -> runs the file that has the name <file_name>\n");
-			printf("quit -> terminates shell mode\n");
-			printf("exe <code> -> runst the brainfuck code given\n");
-			printf("help -> displays this menu\n");
+			printf("Command line arguments:\n");
+			printf("\tbf_interpreter.exe -f <file name> -> runst the file indicated by <file name>\n");
+			printf("\tbf_interpreter.exe -> runst the program in shell mode\n");
+			printf("Shell mode:\n");
+			printf("\trun <file_name> -> runs the file that has the name <file_name>\n");
+			printf("\tquit -> terminates shell mode\n");
+			printf("\texe <code> -> runst the brainfuck code given\n");
+			printf("\thelp -> displays this menu\n");
 		}
 		else{
 			printf("command not recognized\n");
