@@ -42,7 +42,7 @@ the above command runs the file named "\<file name\>"
 # Shell Mode
 If no command line parameters are given, the application will start in the shell mode
 In the shell mode, the following commands can be used
-- run \<file name\> $\rigtharrow$ runs the file named "\<file name\>"
-- quit $\rigtharrow$ quits out of the shell
-- exe \<code\>  $\rigtharrow$ executes the bf code that follows the command
-- help $\rigtharrow$ displays help menu
+- run \<file name\> -> runs the file named "\<file name\>"
+- quit -> quits out of the shell
+- exe \<code\>  -> executes the bf code that follows the command
+- help -> displays help menu
